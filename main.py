@@ -1,12 +1,19 @@
 import sys
 import os
 import json
+import re
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QHBoxLayout, QVBoxLayout
 )
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from traceback import format_exc
+
+def natural_sort_key(text):
+    def convert(text):
+        return int(text) if text.isdigit() else text.lower()
+    
+    return [convert(c) for c in re.split('([0-9]+)', text)]
 
 class ImageSlider(QWidget):
     __IMAGES_FOLDER = "images"
@@ -34,7 +41,7 @@ class ImageSlider(QWidget):
         try:
             if os.path.exists(self.__IMAGES_FOLDER):
                 self.images = [f for f in os.listdir(self.__IMAGES_FOLDER) if f.lower().endswith(self.__VALID_EXTENSIONS)]
-                self.images.sort()
+                self.images.sort(key=natural_sort_key)
                 
                 if not self.images:
                     print(f"В папке {self.__IMAGES_FOLDER} нет изображений")
