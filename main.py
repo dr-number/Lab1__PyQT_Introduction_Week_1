@@ -8,6 +8,8 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from traceback import format_exc
+from PyQt6.QtWidgets import QMessageBox
+
 
 def natural_sort_key(text):
     def convert(text):
@@ -23,13 +25,21 @@ class ImageSlider(QWidget):
         super().__init__()
         self.current_image_index = 0
         self.images = []
-        self.title = ''
+        self.title = '(название не найдено)'
         self.text_description = {}
 
-        with open('info.json', 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            self.text_description = data['text_description']
-            self.title = data['title']
+        try:
+            with open('info.json', 'r', encoding='utf-8') as file:
+                data = json.load(file)
+                self.text_description = data.get('text_description', {})
+                self.title = data.get('title', '(название не найдено)')
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                "Ошибка",
+                f"Ошибка открытия файла info.json\nНажмите ОК чтобы продолжить:\n\n{e}\n{format_exc()}",
+                QMessageBox.StandardButton.Ok
+            )
 
         self.initializeUI()
         
