@@ -1,5 +1,6 @@
 import sys
 import os
+import json
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QHBoxLayout, QVBoxLayout
 )
@@ -15,6 +16,11 @@ class ImageSlider(QWidget):
         super().__init__()
         self.current_image_index = 0
         self.images = []
+        self.text_description = {}
+
+        with open('info.json', 'r', encoding='utf-8') as file:
+            self.text_description = json.load(file)
+
         self.initializeUI()
         
     def initializeUI(self):
@@ -45,7 +51,7 @@ class ImageSlider(QWidget):
 
         self.image_label = QLabel(self)
         self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.image_label.setMinimumSize(400, 300)
+        self.image_label.setMinimumSize(1000, 600)
         self.image_label.setStyleSheet("border: 1px solid gray;")
         
         self.prev_button = QPushButton("← Назад", self)
@@ -79,17 +85,18 @@ class ImageSlider(QWidget):
             return False
             
         try:
-            image_path = os.path.join("images", self.images[self.current_image_index])
+            key_image = self.images[self.current_image_index]
+            image_path = os.path.join("images", key_image)
             pixmap = QPixmap(image_path)
             
             if not pixmap.isNull():
                 scaled_pixmap = pixmap.scaled(
-                    450, 300,
+                    900, 600,
                     Qt.AspectRatioMode.KeepAspectRatio,
                     Qt.TransformationMode.SmoothTransformation
                 )
                 self.image_label.setPixmap(scaled_pixmap)
-                self.text_label.setText(f"Image index: {self.current_image_index}")
+                self.text_label.setText(self.text_description.get(key_image, '(описание не найдено)'))
                 
                 # Обновление состояния кнопок
                 self.updateButtonState()
