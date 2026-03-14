@@ -23,16 +23,19 @@ class ImageSlider(QWidget):
         super().__init__()
         self.current_image_index = 0
         self.images = []
+        self.title = ''
         self.text_description = {}
 
         with open('info.json', 'r', encoding='utf-8') as file:
-            self.text_description = json.load(file)
+            data = json.load(file)
+            self.text_description = data['text_description']
+            self.title = data['title']
 
         self.initializeUI()
         
     def initializeUI(self):
         self.setGeometry(200, 100, 500, 400)
-        self.setWindowTitle("Слайдер изображений")
+        self.setWindowTitle(self.title)
         self.loadImages()
         self.setUpMainWindow()
         self.show()
@@ -53,7 +56,6 @@ class ImageSlider(QWidget):
     def setUpMainWindow(self):
         main_layout = QVBoxLayout()
         self.text_label = QLabel(self) 
-        self.text_label.setText("Привет!")
         self.text_label.move(155, 15) 
 
         self.image_label = QLabel(self)
