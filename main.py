@@ -71,7 +71,7 @@ class ImageSlider(QWidget):
     def showCurrentImage(self):
         if not self.images:
             self.image_label.setText("Нет изображений для отображения")
-            return
+            return False
             
         try:
             image_path = os.path.join("images", self.images[self.current_image_index])
@@ -89,9 +89,13 @@ class ImageSlider(QWidget):
                 self.updateButtonState()
             else:
                 self.image_label.setText(f"Не удалось загрузить изображение:\n{self.images[self.current_image_index]}")
+                return False
                 
         except Exception as e:
             print(f"Ошибка при загрузке изображения: {e}\n{format_exc()}")
+            return False
+        
+        return True
     
     def showPreviousImage(self):
         self.loadImages()
