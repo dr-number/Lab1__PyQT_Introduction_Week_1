@@ -112,13 +112,6 @@ class ImageSlider(QWidget):
     def updateButtonState(self):
         self.prev_button.setEnabled(self.current_image_index > 0)
         self.next_button.setEnabled(self.current_image_index < len(self.images) - 1)
-    
-    def keyPressEvent(self, event):
-        """Обработка нажатий клавиш клавиатуры"""
-        if event.key() == Qt.Key.Key_Left:
-            self.showPreviousImage()
-        elif event.key() == Qt.Key.Key_Right:
-            self.showNextImage()
 
 # Запуск программы
 if __name__ == '__main__':
