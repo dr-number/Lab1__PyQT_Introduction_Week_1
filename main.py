@@ -39,6 +39,10 @@ class ImageSlider(QWidget):
     
     def setUpMainWindow(self):
         main_layout = QVBoxLayout()
+        self.text_label = QLabel(self) 
+        self.text_label.setText("Привет!")
+        self.text_label.move(155, 15) 
+
         self.image_label = QLabel(self)
         self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.image_label.setMinimumSize(400, 300)
@@ -61,6 +65,7 @@ class ImageSlider(QWidget):
         
         # Добавление виджетов в основной layout
         main_layout.addWidget(self.image_label)
+        main_layout.addWidget(self.text_label)
         main_layout.addLayout(button_layout)
         
         # Установка layout для окна
@@ -84,6 +89,7 @@ class ImageSlider(QWidget):
                     Qt.TransformationMode.SmoothTransformation
                 )
                 self.image_label.setPixmap(scaled_pixmap)
+                self.text_label.setText(f"Image index: {self.current_image_index}")
                 
                 # Обновление состояния кнопок
                 self.updateButtonState()
