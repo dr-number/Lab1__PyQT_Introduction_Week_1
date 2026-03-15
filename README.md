@@ -10,7 +10,7 @@ root/
 ├── images/
 │   ├── 1_img.jpg
 │   ├── 2_img.jpg
-│   ├── n_img.jpg
+│   └── n_img.jpg
 ├── venv/
 ├── .gitignore
 ├── info.json
