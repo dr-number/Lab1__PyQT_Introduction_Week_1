@@ -20,7 +20,7 @@ root/
 └── requirements.txt
 ```
 
-# project preparation
+# Project preparation
 1) In the root of the project, create an images folder and fill it with images with names that will install the files in the desired order.
 
 2) At the root of the project, create a file called info.json with the following structure:
