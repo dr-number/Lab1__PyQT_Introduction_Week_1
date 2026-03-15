@@ -31,7 +31,7 @@ root/
         "1_img.jpg": "Description for 1_img.jpg",
         "2_img.jpg": "Description for 2_img.jpg",
         ...
-        "n_img.jpg": "Description for n_img.jpg",
+        "n_img.jpg": "Description for n_img.jpg"
     }
 }
 ```
