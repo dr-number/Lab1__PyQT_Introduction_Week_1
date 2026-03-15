@@ -22,12 +22,14 @@ class ImageSlider(QWidget):
     __VALID_EXTENSIONS = ('.jpg', '.jpeg', '.png', '.gif', '.bmp')
 
     def __init__(self):
+        '''Инициализация слайдера'''
         super().__init__()
         self.current_image_index = 0
         self.images = []
         self.title = '(название не найдено)'
         self.text_description = {}
 
+        '''Чтение данных из файла'''
         try:
             with open('info.json', 'r', encoding='utf-8') as file:
                 data = json.load(file)
@@ -44,6 +46,7 @@ class ImageSlider(QWidget):
         self.initializeUI()
         
     def initializeUI(self):
+        '''Настройка графического интерфейса приложения.'''
         self.setGeometry(200, 100, 500, 400)
         self.setWindowTitle(self.title)
         self.loadImages()
@@ -51,6 +54,7 @@ class ImageSlider(QWidget):
         self.show()
     
     def loadImages(self):
+        '''Загрузка изображений из директории __IMAGES_FOLDER'''
         try:
             if os.path.exists(self.__IMAGES_FOLDER):
                 self.images = [f for f in os.listdir(self.__IMAGES_FOLDER) if f.lower().endswith(self.__VALID_EXTENSIONS)]
@@ -64,6 +68,7 @@ class ImageSlider(QWidget):
             print(f"Ошибка при загрузке изображений: {e}\n{format_exc()}")
     
     def setUpMainWindow(self):
+        '''Создание элементов управления в главном окне'''
         main_layout = QVBoxLayout()
         self.text_label = QLabel(self) 
         self.text_label.move(155, 15) 
@@ -95,10 +100,10 @@ class ImageSlider(QWidget):
         
         # Установка layout для окна
         self.setLayout(main_layout)
-        
         self.showCurrentImage()
     
     def showCurrentImage(self):
+        '''Отображение изображения'''
         if not self.images:
             self.image_label.setText("Нет изображений для отображения")
             return False
@@ -130,18 +135,21 @@ class ImageSlider(QWidget):
         return True
     
     def showPreviousImage(self):
+        '''Показать предыдущее изображение'''
         self.loadImages()
         if self.current_image_index > 0:
             self.current_image_index -= 1
             self.showCurrentImage()
     
     def showNextImage(self):
+        '''Показать следующее изображение'''
         self.loadImages()
         if self.current_image_index < len(self.images) - 1:
             self.current_image_index += 1
             self.showCurrentImage()
     
     def updateButtonState(self):
+        '''Управление доступностью кнопок'''
         self.prev_button.setEnabled(self.current_image_index > 0)
         self.next_button.setEnabled(self.current_image_index < len(self.images) - 1)
 
